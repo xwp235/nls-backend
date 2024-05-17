@@ -1,1 +1,14 @@
 ### gtr 快速生成get请求模板 ptrp 快速生成带参数的post请求模板
+GET http://localhost:18000/nls?username=aaa
+Accept-Language: zh-CN
+
+###
+POST http://localhost:18000/nls
+Content-Type: application/json
+
+{
+  "username": "Jack",
+  "password": "123456"
+}
+
+###

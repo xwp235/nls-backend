@@ -1,15 +1,19 @@
 server:
   servlet:
-    context-path: ${SERVER_CONTEXT_PATH}
-  port: ${SERVER_PORT}
+    context-path: ${SERVER_CONTEXT_PATH:/}
+    session:
+      timeout: 30m
+  port: ${SERVER_PORT:8080}
 spring:
   servlet:
     multipart:
       max-file-size: 30MB
-      max-request-size: 30MB
+      max-request-size: 60MB
       enabled: on
   main:
     banner-mode: off
+  messages:
+    basename: i18n/messages,i18n/errors,i18n/warnings
   jackson:
     time-zone: UTC
     serialization:
@@ -21,16 +25,13 @@ spring:
       fail-on-unknown-properties: off
     date-format: yyyy-MM-dd HH:mm:ss
   application:
-    name: nls-api
+    name: ${APPLICATION_NAME:nls-api}
   task:
     scheduling:
       pool:
         size: 20
-      threadNamePrefix: nls-task-
       simple:
         concurrency-limit: -1
-  profiles:
-    active: dev
 management:
   endpoints:
     web:

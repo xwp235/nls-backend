@@ -13,9 +13,9 @@ spring:
   main:
     banner-mode: off
   messages:
-    basename: i18n/messages,i18n/errors,i18n/warnings
+    basename: i18n/messages,i18n/errors,i18n/warnings,i18n/validation
   jackson:
-    time-zone: UTC
+    time-zone: ${TIMEZONE:UTC}
     serialization:
       write-enums-using-to-string: on
       write-dates-as-timestamps: off
@@ -26,12 +26,23 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   application:
     name: ${APPLICATION_NAME:nls-api}
-  task:
-    scheduling:
-      pool:
-        size: 20
-      simple:
-        concurrency-limit: -1
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      connection-timeout: 30000
+      read-only: off
+      minimum-idle: ${DATASOURCE_MINIMUM_IDLE:2}
+      maximum-pool-size: ${DATASOURCE_MAXIMUM_POOL_SIZE:10}
+      auto-commit: on
+      max-lifetime: 600000
+      idle-timeout: 300000
+      connection-test-query: select 1
+      validation-timeout: 1500
+      pool-name: ${APPLICATION_NAME}-HikariCP
 management:
   endpoints:
     web:
@@ -47,3 +58,16 @@ management:
     git:
       enabled: on
       mode: full
+# 文档 https://mybatis.org/mybatis-3/index.html
+mybatis:
+  mapper-locations: ${MYBATIS_MAPPER_LOCATIONS:classpath:/mapper/**/*.xml}
+  configuration:
+    aggressive-lazy-loading: off
+    # 当查询数据为空时字段返回为null，不设置这个字段为true的话查询的数据为null时，字段将被隐藏
+    call-setters-on-nulls: on
+    lazy-loading-enabled: on
+    local-cache-scope: session
+    use-column-label: on
+logging:
+  level:
+    com.nlsapi.core.business.mapper: TRACE

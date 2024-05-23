@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nlsapi.core.business.mapper.cust.CustMastSmsCodeEntityMapper">
+  <resultMap id="BaseResultMap" type="com.nlsapi.core.business.entity.MastSmsCodeEntity">
+    <id column="msc_id" jdbcType="BIGINT" property="mscId" />
+    <result column="msc_account" jdbcType="VARCHAR" property="mscAccount" />
+    <result column="msc_account_type" jdbcType="CHAR" property="mscAccountType" />
+    <result column="msc_code" jdbcType="VARCHAR" property="mscCode" />
+    <result column="msc_usage" jdbcType="VARCHAR" property="mscUsage" />
+    <result column="msc_status" jdbcType="CHAR" property="mscStatus" />
+    <result column="msc_created_at" jdbcType="TIMESTAMP" property="mscCreatedAt" />
+    <result column="msc_updated_at" jdbcType="TIMESTAMP" property="mscUpdatedAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    msc_id, msc_account, msc_account_type, msc_code, msc_usage, msc_status, msc_created_at,
+    msc_updated_at
+  </sql>
+  <select id="selectByExample" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mast_sms_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mast_sms_code
+    where msc_id = #{mscId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mast_sms_code
+    where msc_id = #{mscId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntityExample">
+    delete from mast_sms_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntity">
+    insert into mast_sms_code (msc_id, msc_account, msc_account_type,
+      msc_code, msc_usage, msc_status,
+      msc_created_at, msc_updated_at)
+    values (#{mscId,jdbcType=BIGINT}, #{mscAccount,jdbcType=VARCHAR}, #{mscAccountType,jdbcType=CHAR},
+      #{mscCode,jdbcType=VARCHAR}, #{mscUsage,jdbcType=VARCHAR}, #{mscStatus,jdbcType=CHAR},
+      current_timestamp, current_timestamp)
+  </insert>
+  <insert id="insertSelective" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntity">
+    insert into mast_sms_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mscId != null">
+        msc_id,
+      </if>
+      <if test="mscAccount != null">
+        msc_account,
+      </if>
+      <if test="mscAccountType != null">
+        msc_account_type,
+      </if>
+      <if test="mscCode != null">
+        msc_code,
+      </if>
+      <if test="mscUsage != null">
+        msc_usage,
+      </if>
+      <if test="mscStatus != null">
+        msc_status,
+      </if>
+      <if test="mscCreatedAt != null">
+        msc_created_at,
+      </if>
+      <if test="mscUpdatedAt != null">
+        msc_updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mscId != null">
+        #{mscId,jdbcType=BIGINT},
+      </if>
+      <if test="mscAccount != null">
+        #{mscAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mscAccountType != null">
+        #{mscAccountType,jdbcType=CHAR},
+      </if>
+      <if test="mscCode != null">
+        #{mscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mscUsage != null">
+        #{mscUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="mscStatus != null">
+        #{mscStatus,jdbcType=CHAR},
+      </if>
+      <if test="mscCreatedAt != null">
+        #{mscCreatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mscUpdatedAt != null">
+        #{mscUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntityExample" resultType="java.lang.Long">
+    select count(*) from mast_sms_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update mast_sms_code
+    <set>
+      <if test="row.mscId != null">
+        msc_id = #{row.mscId,jdbcType=BIGINT},
+      </if>
+      <if test="row.mscAccount != null">
+        msc_account = #{row.mscAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="row.mscAccountType != null">
+        msc_account_type = #{row.mscAccountType,jdbcType=CHAR},
+      </if>
+      <if test="row.mscCode != null">
+        msc_code = #{row.mscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="row.mscUsage != null">
+        msc_usage = #{row.mscUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="row.mscStatus != null">
+        msc_status = #{row.mscStatus,jdbcType=CHAR},
+      </if>
+      <if test="row.mscCreatedAt != null">
+        msc_created_at = #{row.mscCreatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.mscUpdatedAt != null">
+        msc_updated_at = #{row.mscUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update mast_sms_code
+    set msc_id = #{row.mscId,jdbcType=BIGINT},
+      msc_account = #{row.mscAccount,jdbcType=VARCHAR},
+      msc_account_type = #{row.mscAccountType,jdbcType=CHAR},
+      msc_code = #{row.mscCode,jdbcType=VARCHAR},
+      msc_usage = #{row.mscUsage,jdbcType=VARCHAR},
+      msc_status = #{row.mscStatus,jdbcType=CHAR},
+      msc_created_at = #{row.mscCreatedAt,jdbcType=TIMESTAMP},
+      msc_updated_at = #{row.mscUpdatedAt,jdbcType=TIMESTAMP}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntity">
+    update mast_sms_code
+    <set>
+      <if test="mscAccount != null">
+        msc_account = #{mscAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mscAccountType != null">
+        msc_account_type = #{mscAccountType,jdbcType=CHAR},
+      </if>
+      <if test="mscCode != null">
+        msc_code = #{mscCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mscUsage != null">
+        msc_usage = #{mscUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="mscStatus != null">
+        msc_status = #{mscStatus,jdbcType=CHAR},
+      </if>
+      <if test="mscCreatedAt != null">
+        msc_created_at = #{mscCreatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mscUpdatedAt != null">
+        msc_updated_at = #{mscUpdatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where msc_id = #{mscId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nlsapi.core.business.entity.MastSmsCodeEntity">
+    update mast_sms_code
+    set msc_account = #{mscAccount,jdbcType=VARCHAR},
+      msc_account_type = #{mscAccountType,jdbcType=CHAR},
+      msc_code = #{mscCode,jdbcType=VARCHAR},
+      msc_usage = #{mscUsage,jdbcType=VARCHAR},
+      msc_status = #{mscStatus,jdbcType=CHAR},
+      msc_created_at = #{mscCreatedAt,jdbcType=TIMESTAMP},
+      msc_updated_at = #{mscUpdatedAt,jdbcType=TIMESTAMP}
+    where msc_id = #{mscId,jdbcType=BIGINT}
+  </update>
+</mapper>

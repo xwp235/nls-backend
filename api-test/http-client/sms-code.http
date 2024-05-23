@@ -1,0 +1,9 @@
+###发送短信验证码
+POST http://localhost:18000/nls/web/sms-code/send-for-register
+Content-Type: application/json
+
+{
+  "account": ""
+}
+
+###

@@ -30,15 +30,15 @@
 
         <!-- domain类的位置 targetProject是相对pom.xml的路径-->
         <javaModelGenerator targetProject="../business/src/main/java"
-                            targetPackage="com.nlsapi.core.business.member.domain"/>
+                            targetPackage="com.nlsapi.core.business.entity"/>
 
         <!-- mapper xml的位置 targetProject是相对pom.xml的路径 -->
         <sqlMapGenerator targetProject="../business/src/main/resources"
-                         targetPackage="mapper/member"/>
+                         targetPackage="mapper/"/>
 
         <!-- mapper类的位置 targetProject是相对pom.xml的路径 -->
         <javaClientGenerator targetProject="../business/src/main/java"
-                             targetPackage="com.nlsapi.core.business.member.mapper"
+                             targetPackage="com.nlsapi.core.business.mapper"
                              type="XMLMAPPER"/>
 
         <!--<table tableName="demo" domainObjectName="Demo"/>-->
@@ -48,6 +48,6 @@
         <!--<table tableName="order_info" domainObjectName="OrderInfo"/>-->
         <!--<table tableName="filetrans_subtitle" domainObjectName="FiletransSubtitle"/>-->
         <!--<table tableName="user" domainObjectName="User"/>-->
-        <table tableName="member_login_log" domainObjectName="MemberLoginLog"/>
+        <table tableName="mast_sms_code" domainObjectName="MastSmsCodeEntity"/>
     </context>
 </generatorConfiguration>

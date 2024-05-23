@@ -2,7 +2,6 @@ package com.nlsapi.core.business.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nlsapi.core.business.mapper.DemoMapper;
 import com.nlsapi.core.business.req.TestReq;
 import com.nlsapi.core.common.resp.JsonResp;
 import com.nlsapi.core.common.utils.JsonUtil;
@@ -17,7 +16,6 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final DemoMapper demoMapper;
     private final ObjectMapper objectMapper;
 
 
@@ -58,7 +56,7 @@ public class TestController {
         System.out.println(">>>>" + mergedNode);
 //        int a = 10/0;
 
-        return demoMapper.selectDate();
+        return null;
     }
 
     @Data

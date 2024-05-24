@@ -1,6 +1,6 @@
 package com.nlsapi.core.common.exception;
 
-import com.nlsapi.core.common.exception.enums.BusinessExceptionEnum;
+import com.nlsapi.core.common.exception.enums.IBusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,9 +8,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BusinessException extends RuntimeException{
 
-    private BusinessExceptionEnum errorInfo;
+    private IBusinessException errorInfo;
 
-    public BusinessException(BusinessExceptionEnum e) {
+    public BusinessException(IBusinessException e) {
         super(e.getMessage());
         this.errorInfo = e;
     }

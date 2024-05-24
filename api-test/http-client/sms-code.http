@@ -3,7 +3,7 @@ POST http://localhost:18000/nls/web/sms-code/send-for-register
 Content-Type: application/json
 
 {
-  "account": ""
+  "account": "13708790110"
 }
 
 ###

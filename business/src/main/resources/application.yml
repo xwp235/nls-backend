@@ -13,7 +13,7 @@ spring:
   main:
     banner-mode: off
   messages:
-    basename: i18n/messages,i18n/errors,i18n/warnings,i18n/validation
+    basename: i18n/messages,i18n/errors,i18n/warnings,i18n/validation,i18n/cust_errors
   jackson:
     time-zone: ${TIMEZONE:UTC}
     serialization:

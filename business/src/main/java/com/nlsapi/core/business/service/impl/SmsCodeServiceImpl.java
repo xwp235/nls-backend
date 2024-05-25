@@ -11,6 +11,7 @@ import com.nlsapi.core.business.enums.SmsCodeUsageEnum;
 import com.nlsapi.core.business.enums.exception.SmsCodeExceptionEnum;
 import com.nlsapi.core.business.mapper.MastSmsCodeEntityMapper;
 import com.nlsapi.core.business.mapper.cust.CustMastSmsCodeEntityMapper;
+import com.nlsapi.core.business.service.MemberService;
 import com.nlsapi.core.business.service.SmsCodeService;
 import com.nlsapi.core.common.exception.BusinessException;
 import com.nlsapi.core.common.utils.IdWorkerUtil;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +29,23 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     private final CustMastSmsCodeEntityMapper custMastSmsCodeEntityMapper;
     private final MastSmsCodeEntityMapper mastSmsCodeEntityMapper;
 
+    private final MemberService memberService;
+
+    @Override
+    public void sendForRegister(String account) {
+        var member = memberService.getByAccount(account);
+        if (Objects.nonNull(member)) {
+            throw new BusinessException(SmsCodeExceptionEnum.ACCOUNT_HAS_BEEN_REGISTERED);
+        }
+        sendForRegister(account,SmsCodeUsageEnum.REGISTER);
+    }
+
     /**
      * 校验: 如果一分钟内有相同手机号相同用途发送记录，则报错：短信请求过于频繁
      * @param account 账号
      * @param usage 用途
      */
-    @Override
-    public void sendCode(String account, SmsCodeUsageEnum usage) {
+    private void sendForRegister(String account, SmsCodeUsageEnum usage) {
        var code = RandomUtil.randomNumbers(6);
 
        var example = new MastSmsCodeEntityExample();

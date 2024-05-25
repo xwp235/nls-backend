@@ -1,5 +1,9 @@
 package com.nlsapi.core.common.exception;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ClassUtil;
+import com.nlsapi.core.BusinessApplication;
 import com.nlsapi.core.common.AppConstants;
 import com.nlsapi.core.common.advice.IgnoreRespSerializable;
 import com.nlsapi.core.common.exception.enums.BusinessExceptionEnum;
@@ -119,10 +123,43 @@ public class ControllerExceptionHandler {
         var resp = JsonResp.error(e.getMessage()).setCode(errorInfo.getCode())
                 .set(AppConstants.ERROR_TYPE,errorInfo.getType())
                 .set(AppConstants.TRACE_ID,MDC.get(AppConstants.LOG_ID));
-        LogUtil.error(e.getMessage(), e);
+        var rootErrorInfo = getRootErrorInfo(e);
+
+        if (errorInfo.shouldLog()) {
+            if (Objects.nonNull(rootErrorInfo)) {
+                LogUtil.error(MessageUtil.getMessage("business") + errorInfo, e);
+            } else {
+                LogUtil.error(MessageUtil.getMessage("businessExceptionOccurred"), e);
+            }
+        }
         return resp;
     }
 
+    /**
+     * 系统异常统一处理
+     */
+    @ExceptionHandler(SystemException.class)
+    @ResponseBody
+    @IgnoreRespSerializable
+    public JsonResp systemException(SystemException e) {
+        var resp = JsonResp.error(e.getMessage()).setCode(e.getCode())
+                .set(AppConstants.ERROR_TYPE,e.getType())
+                .set(AppConstants.TRACE_ID,MDC.get(AppConstants.LOG_ID));
+
+        var errorInfo = getRootErrorInfo(e);
+        if (e.isShouldLog()) {
+            if (Objects.nonNull(errorInfo)) {
+                LogUtil.error(MessageUtil.getMessage("system") + errorInfo, e);
+            } else {
+                LogUtil.error("systemExceptionOccurred", e);
+            }
+        }
+        return resp;
+    }
+
+    /**
+     * 系统未知异常处理
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -133,6 +170,36 @@ public class ControllerExceptionHandler {
         return JsonResp.error(message).setCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .set(AppConstants.ERROR_TYPE,AppConstants.EXCEPTION_TYPE.ERROR)
                 .set(AppConstants.TRACE_ID,MDC.get(AppConstants.LOG_ID));
+    }
+
+    private RootErrorInfo getRootErrorInfo(Throwable e) {
+        var rootCause = ExceptionUtil.getRootCause(e);
+        if (Objects.isNull(rootCause)) {
+            return null;
+        }
+        var stackTrace = rootCause.getStackTrace();
+        if (ArrayUtil.isEmpty(stackTrace)) {
+            return null;
+        }
+        // 获取
+        var rootPackage = ClassUtil.getPackage(BusinessApplication.class);
+        return getRootInfoDetail(stackTrace, rootPackage);
+    }
+
+    private RootErrorInfo getRootInfoDetail(StackTraceElement[] stackTrace, String rootPackage) {
+        var info = stackTrace[0];
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            var stackElStr = stackTraceElement.toString();
+            if (stackElStr.contains(rootPackage)) {
+                info = stackTraceElement;
+                break;
+            }
+        }
+        var rootErrorInfo = new RootErrorInfo();
+        rootErrorInfo.setLineNumber(info.getLineNumber());
+        rootErrorInfo.setClassName(info.getClassName());
+        rootErrorInfo.setMethodName(info.getMethodName());
+        return rootErrorInfo;
     }
 
 }

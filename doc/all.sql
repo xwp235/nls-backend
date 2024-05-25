@@ -11,3 +11,15 @@ create table `mast_sms_code` (
     `msc_updated_at` datetime(3) comment '修改时间',
     primary key (`msc_id`)
 ) engine=innodb default charset=utf8 comment='短信验证码表';
+
+drop table if exists `mast_member`;
+create table `mast_member` (
+                               `mm_id` bigint not null comment 'id',
+                               `mm_account` varchar(50) not null comment '手机号',
+                               `mm_password` char(32) not null comment '密码',
+                               `mm_nickname` varchar(50) comment '昵称',
+                               `mm_created_at` datetime(3) comment '创建时间',
+                               `mm_updated_at` datetime(3) comment '修改时间',
+                               primary key (`mm_id`),
+                               unique key `account_unique` (`mm_account`)
+) engine=innodb default charset=utf8 comment='会员表';

@@ -10,7 +10,8 @@ public enum SmsCodeExceptionEnum implements IBusinessException {
     TOO_MANY_REQUESTS(AppConstants.EXCEPTION_TYPE.WARN, CustomErrorConstants.ERR_20000,false,MessageUtil.getMessage("web.sms-code.TooManyRequests")),
     SEND_FAILED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20001,false,MessageUtil.getMessage("web.sms-code.sendFailed")),
     ACCOUNT_HAS_BEEN_REGISTERED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20003,false,MessageUtil.getMessage("web.sms-code.accountHasBeenRegistered")),
-    ;
+    INCORRECT_VERIFY_CODE(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20004,false,MessageUtil.getMessage("web.sms-code.incorrectVerifyCode")),
+    SEND_FAILED_OR_EXPIRED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20005,false,MessageUtil.getMessage("web.sms-code.sendFailedOrExpired"));
 
     SmsCodeExceptionEnum(String type,int code,boolean shouldLog,String message) {
         this.type = type;

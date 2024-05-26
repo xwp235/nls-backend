@@ -236,11 +236,8 @@
       <if test="mscStatus != null">
         msc_status = #{mscStatus,jdbcType=CHAR},
       </if>
-      <if test="mscCreatedAt != null">
-        msc_created_at = #{mscCreatedAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="mscUpdatedAt != null">
-        msc_updated_at = #{mscUpdatedAt,jdbcType=TIMESTAMP},
+        msc_updated_at = current_timestamp
       </if>
     </set>
     where msc_id = #{mscId,jdbcType=BIGINT}

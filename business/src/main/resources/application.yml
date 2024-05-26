@@ -58,6 +58,14 @@ management:
     git:
       enabled: on
       mode: full
+    java:
+      enabled: on
+    env:
+      enabled: on
+    os:
+      enabled: off
+    process:
+      enabled: off
 # 文档 https://mybatis.org/mybatis-3/index.html
 mybatis:
   mapper-locations: ${MYBATIS_MAPPER_LOCATIONS:classpath:/mapper/**/*.xml}
@@ -71,3 +79,6 @@ mybatis:
 logging:
   level:
     com.nlsapi.core.business.mapper: TRACE
+info:
+  app:
+    name: ${spring.application.name}

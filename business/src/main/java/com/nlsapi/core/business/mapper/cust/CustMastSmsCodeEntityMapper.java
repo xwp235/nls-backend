@@ -4,4 +4,5 @@ import com.nlsapi.core.business.entity.MastSmsCodeEntity;
 
 public interface CustMastSmsCodeEntityMapper {
     int insert(MastSmsCodeEntity row);
+    int updateByPrimaryKeySelective(MastSmsCodeEntity row);
 }

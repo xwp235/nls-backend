@@ -6,5 +6,7 @@ public interface CustomErrorConstants {
     int ERR_20000 = 20000;
     int ERR_20001 = 20001;
     int ERR_20003 = 20003;
+    int ERR_20004 = 20004;
+    int ERR_20005 = 20005;
 
 }

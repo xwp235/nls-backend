@@ -10,6 +10,7 @@ import com.nlsapi.core.business.entity.MastSmsCodeEntityExample;
 import com.nlsapi.core.business.enums.AccountTypeEnum;
 import com.nlsapi.core.business.enums.SmsCodeStatusEnum;
 import com.nlsapi.core.business.enums.SmsCodeUsageEnum;
+import com.nlsapi.core.business.enums.exception.MemberExceptionEnum;
 import com.nlsapi.core.business.enums.exception.SmsCodeExceptionEnum;
 import com.nlsapi.core.business.mapper.MastSmsCodeEntityMapper;
 import com.nlsapi.core.business.mapper.cust.CustMastSmsCodeEntityMapper;
@@ -38,7 +39,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     public void sendForRegister(String account) {
         var member = memberService.getByAccount(account);
         if (Objects.nonNull(member)) {
-            throw new BusinessException(SmsCodeExceptionEnum.ACCOUNT_HAS_BEEN_REGISTERED);
+            throw new BusinessException(MemberExceptionEnum.ACCOUNT_HAS_BEEN_REGISTERED);
         }
         sendForRegister(account,SmsCodeUsageEnum.REGISTER);
     }

@@ -5,14 +5,12 @@ import com.nlsapi.core.common.AppConstants;
 import com.nlsapi.core.common.exception.enums.IBusinessException;
 import com.nlsapi.core.common.utils.MessageUtil;
 
-public enum SmsCodeExceptionEnum implements IBusinessException {
+public enum MemberExceptionEnum implements IBusinessException {
 
-    TOO_MANY_REQUESTS(AppConstants.EXCEPTION_TYPE.WARN, CustomErrorConstants.ERR_20000,false,MessageUtil.getMessage("web.sms-code.TooManyRequests")),
-    SEND_FAILED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20001,false,MessageUtil.getMessage("web.sms-code.sendFailed")),
-    INCORRECT_VERIFY_CODE(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20004,false,MessageUtil.getMessage("web.sms-code.incorrectVerifyCode")),
-    SEND_FAILED_OR_EXPIRED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20005,false,MessageUtil.getMessage("web.sms-code.sendFailedOrExpired"));
+    ACCOUNT_HAS_BEEN_REGISTERED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20003,false,MessageUtil.getMessage("web.member.accountHasBeenRegistered")),
+    LOGIN_FAILED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20006,false,MessageUtil.getMessage("web.member.loginFailed"));
 
-    SmsCodeExceptionEnum(String type,int code,boolean shouldLog,String message) {
+    MemberExceptionEnum(String type, int code, boolean shouldLog, String message) {
         this.type = type;
         this.code = code;
         this.shouldLog = shouldLog;

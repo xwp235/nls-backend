@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SmsCodeController {
 
     private final SmsCodeService smsCodeService;
+//    private final KaptchaService kaptchaService;
 
     @PostMapping("send-for-register")
     public JsonResp sendForRegister(@Valid @RequestBody SmsCodeRegisterReq req) {
+        // 校验图片验证码，防止短信攻击，不加的话，只能防止同一手机攻击，加上图片验证码，可防止不同的手机号攻击
+//        kaptchaService.validCode(req.getImageCode(), req.getImageCodeToken());
+
           smsCodeService.sendForRegister(req.getAccount());
           return JsonResp.ok();
     }

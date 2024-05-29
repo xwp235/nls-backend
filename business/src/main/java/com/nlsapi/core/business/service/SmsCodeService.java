@@ -11,6 +11,8 @@ public interface SmsCodeService {
      */
   void sendForRegister(String account);
 
+  void sendForReset(String account);
+
   void validCode(String account, SmsCodeUsageEnum usage, String code);
 
 }

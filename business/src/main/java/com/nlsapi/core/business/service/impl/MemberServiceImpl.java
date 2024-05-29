@@ -12,6 +12,7 @@ import com.nlsapi.core.business.mapper.MastMemberEntityMapper;
 import com.nlsapi.core.business.mapper.cust.CustMastMemberEntityMapper;
 import com.nlsapi.core.business.req.web.MemberLoginReq;
 import com.nlsapi.core.business.req.web.MemberRegisterReq;
+import com.nlsapi.core.business.req.web.MemberResetReq;
 import com.nlsapi.core.business.resp.MemberLoginResp;
 import com.nlsapi.core.business.service.MemberService;
 import com.nlsapi.core.common.exception.BusinessException;
@@ -41,6 +42,10 @@ public class MemberServiceImpl implements MemberService {
       return null;
   }
 
+    /**
+     * 注册
+     * @param req
+     */
     @Override
     public void register(MemberRegisterReq req) {
         var account = req.getAccount();
@@ -65,6 +70,11 @@ public class MemberServiceImpl implements MemberService {
         custMastMemberEntityMapper.insert(newMember);
     }
 
+    /**
+     * 登录
+     * @param req
+     * @return
+     */
     @Override
     public MemberLoginResp login(MemberLoginReq req) {
         var account = req.getAccount();
@@ -86,5 +96,22 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessException(MemberExceptionEnum.LOGIN_FAILED);
         }
     }
+
+    /**
+     * 重置密码
+     */
+    @Override
+    public void reset(MemberResetReq req) {
+        var account = req.getAccount();
+        var dbMember = getByAccount(account);
+        if (Objects.isNull(dbMember)) {
+            throw new BusinessException(MemberExceptionEnum.ACCOUNT_NOT_REGISTERED);
+        }
+        var member = new MastMemberEntity();
+        member.setMmId(dbMember.getMmId());
+        member.setMmPassword(req.getPassword());
+        custMastMemberEntityMapper.updateByPrimaryKeySelective(member);
+    }
+
 
 }

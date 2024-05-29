@@ -3,6 +3,7 @@ package com.nlsapi.core.business.service;
 import com.nlsapi.core.business.entity.MastMemberEntity;
 import com.nlsapi.core.business.req.web.MemberLoginReq;
 import com.nlsapi.core.business.req.web.MemberRegisterReq;
+import com.nlsapi.core.business.req.web.MemberResetReq;
 import com.nlsapi.core.business.resp.MemberLoginResp;
 
 public interface MemberService {
@@ -12,5 +13,7 @@ public interface MemberService {
     void register(MemberRegisterReq req);
 
     MemberLoginResp login(MemberLoginReq req);
+
+    void reset(MemberResetReq req);
 
 }

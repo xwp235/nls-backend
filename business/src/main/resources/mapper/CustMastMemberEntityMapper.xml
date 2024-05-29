@@ -207,12 +207,7 @@
       <if test="mmNickname != null">
         mm_nickname = #{mmNickname,jdbcType=VARCHAR},
       </if>
-      <if test="mmCreatedAt != null">
-        mm_created_at = #{mmCreatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="mmUpdatedAt != null">
-        mm_updated_at = #{mmUpdatedAt,jdbcType=TIMESTAMP},
-      </if>
+       mm_updated_at = current_timestamp,
     </set>
     where mm_id = #{mmId,jdbcType=BIGINT}
   </update>

@@ -8,6 +8,7 @@ import com.nlsapi.core.common.utils.MessageUtil;
 public enum MemberExceptionEnum implements IBusinessException {
 
     ACCOUNT_HAS_BEEN_REGISTERED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20003,false,MessageUtil.getMessage("web.member.accountHasBeenRegistered")),
+    ACCOUNT_NOT_REGISTERED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20007,false,MessageUtil.getMessage("web.member.accountNotRegistered")),
     LOGIN_FAILED(AppConstants.EXCEPTION_TYPE.WARN,CustomErrorConstants.ERR_20006,false,MessageUtil.getMessage("web.member.loginFailed"));
 
     MemberExceptionEnum(String type, int code, boolean shouldLog, String message) {

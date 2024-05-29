@@ -41,7 +41,16 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         if (Objects.nonNull(member)) {
             throw new BusinessException(MemberExceptionEnum.ACCOUNT_HAS_BEEN_REGISTERED);
         }
-        sendForRegister(account,SmsCodeUsageEnum.REGISTER);
+        sendSmsCode(account,SmsCodeUsageEnum.REGISTER);
+    }
+
+    @Override
+    public  void sendForReset(String account) {
+        var member = memberService.getByAccount(account);
+        if (Objects.isNull(member)) {
+            throw new BusinessException(MemberExceptionEnum.ACCOUNT_NOT_REGISTERED);
+        }
+        sendSmsCode(account,SmsCodeUsageEnum.RESET);
     }
 
     /**
@@ -49,7 +58,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
      * @param account 账号
      * @param usage 用途
      */
-    private void sendForRegister(String account, SmsCodeUsageEnum usage) {
+    private void sendSmsCode(String account, SmsCodeUsageEnum usage) {
        var code = RandomUtil.randomNumbers(6);
        var example = new MastSmsCodeEntityExample();
        var criteria = example.createCriteria();

@@ -9,8 +9,10 @@ import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -58,6 +60,22 @@ public class TestController {
 
         return null;
     }
+
+    @PostMapping("upload")
+    public void test3(@RequestBody List<MultipartFile> files) {
+        System.out.println(files);
+    }
+
+    @PostMapping("str1")
+    public void test4(@RequestBody List<String> strs) {
+
+    }
+
+    @PostMapping("file1")
+    public void file1(MultipartFile file,String strs) {
+        System.out.println(file);
+    }
+
 
     @Data
     public static class User {

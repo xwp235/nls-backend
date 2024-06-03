@@ -1,5 +1,6 @@
 package com.nlsapi.core.common.aspect;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +21,14 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -99,7 +102,7 @@ public class LogAspect {
                 parameters  = parseExpressionValue(
                         elExpression.toString(), variables);
             } catch (Exception e) {
-                LogUtil.warn("Path - {} el expression compile failed : {}", servletPath, variables);
+                LogUtil.warn("Spring el expression parse request parameter failed at [{}]-{} !", request.getMethod(),request.getRequestURI());
             }
         }
 
@@ -190,9 +193,34 @@ public class LogAspect {
     private <T> T parseExpressionValue(String expr, Map<String, Object> variables) {
         var parser = new SpelExpressionParser();
         var context = new StandardEvaluationContext();
-        variables.forEach(context::setVariable);
+        variables.forEach((key,val) -> {
+            if (isMultipartFileList(val)) {
+                  var fileList = (List<MultipartFile>)val;
+                  var fileStrList = CollUtil.<String>newArrayList();
+                  if (CollUtil.isNotEmpty(fileList)) {
+                      for (var multipartFile : fileList) {
+                          fileStrList.add(multipartFile.getOriginalFilename());
+                      }
+                  }
+                  context.setVariable(key,fileStrList);
+            } else {
+                context.setVariable(key,val);
+            }
+        });
         var expression = parser.parseExpression(expr, new TemplateParserContext());
         return expression.getValue(context, (Class<T>) Object.class);
+    }
+
+    private boolean isMultipartFileList(Object obj) {
+        if (obj instanceof List<?> list) {
+            for (var element : list) {
+                if (!(element instanceof MultipartFile)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }

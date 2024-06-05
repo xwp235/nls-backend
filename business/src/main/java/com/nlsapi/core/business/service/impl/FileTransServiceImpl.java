@@ -1,5 +1,6 @@
 package com.nlsapi.core.business.service.impl;
 
+import com.nlsapi.core.business.context.LoginMemberContext;
 import com.nlsapi.core.business.entity.MastFileTransEntity;
 import com.nlsapi.core.business.enums.FileTransPayStatusEnum;
 import com.nlsapi.core.business.enums.FileTransStatusEnum;
@@ -28,7 +29,7 @@ public class FileTransServiceImpl implements FileTransService {
         var filetrans = new MastFileTransEntity();
         var id = IdWorkerUtil.getId();
         filetrans.setId(id);
-        filetrans.setMemberId(req.getMemberId());
+        filetrans.setMemberId(LoginMemberContext.getId());
         filetrans.setName(req.getName());
         filetrans.setSecond(second);
         filetrans.setAmount(req.getAmount());

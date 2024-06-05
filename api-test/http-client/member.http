@@ -8,4 +8,17 @@ Content-Type: application/json
   "code": "123456"
 }
 
-###
+### 登录
+POST http://localhost:18000/nls/web/member/login
+Content-Type: application/json
+
+{
+  "account":"13000000000",
+  "password": "180aff229cc9a3cb224a24e501ee7763"
+}
+
+> {%
+    client.log(JSON.stringify(response.body))
+    client.log(JSON.stringify(response.body.data.token))
+    client.global.set("token", response.body.data.token)
+%}

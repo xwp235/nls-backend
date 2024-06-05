@@ -1,6 +1,7 @@
 ###发送短信验证码
 POST http://localhost:18000/nls/web/file-trans/
 Content-Type: application/json
+token: {{token}}
 
 {
   "account": "ja_xwp@yeah.net",

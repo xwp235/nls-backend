@@ -2,6 +2,7 @@ package com.nlsapi.core.common.config;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.nlsapi.core.business.interceptor.WebLoginInterceptor;
 import com.nlsapi.core.common.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,19 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**").order(1);
+        // 路径不要包含context-path
+        registry.addInterceptor(new WebLoginInterceptor())
+                .addPathPatterns("/web/**")
+                // 不需要登录认证的url
+                .excludePathPatterns(
+                        "/web/kaptcha/image-code/*",
+                        "/web/member/login",
+                        "/web/member/register",
+                        "/web/member/reset",
+                        "/web/sms-code/send-for-register",
+                        "/web/sms-code/send-for-reset"
+                ).order(2);
     }
 
     @Override

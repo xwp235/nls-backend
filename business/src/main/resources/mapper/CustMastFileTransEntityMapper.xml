@@ -179,12 +179,8 @@
       <if test="solveTime != null">
         solve_time,
       </if>
-      <if test="createdAt != null">
         created_at,
-      </if>
-      <if test="updatedAt != null">
         updated_at,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -235,12 +231,8 @@
       <if test="solveTime != null">
         #{solveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createdAt != null">
-        current_timestamp,
-      </if>
-      <if test="updatedAt != null">
-        current_timestamp,
-      </if>
+      current_timestamp,
+      current_timestamp,
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.nlsapi.core.business.entity.MastFileTransEntityExample" resultType="java.lang.Long">

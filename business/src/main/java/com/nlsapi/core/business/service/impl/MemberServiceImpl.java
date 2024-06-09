@@ -14,6 +14,7 @@ import com.nlsapi.core.business.req.web.MemberLoginReq;
 import com.nlsapi.core.business.req.web.MemberRegisterReq;
 import com.nlsapi.core.business.req.web.MemberResetReq;
 import com.nlsapi.core.business.resp.MemberLoginResp;
+import com.nlsapi.core.business.service.IMemberLoginLogService;
 import com.nlsapi.core.business.service.MemberService;
 import com.nlsapi.core.common.exception.BusinessException;
 import com.nlsapi.core.common.utils.IdWorkerUtil;
@@ -29,6 +30,8 @@ public class MemberServiceImpl implements MemberService {
 
   private final MastMemberEntityMapper mastMemberEntityMapper;
   private final CustMastMemberEntityMapper custMastMemberEntityMapper;
+
+  private final IMemberLoginLogService memberLoginLogService;
 
   @Override
   public MastMemberEntity getByAccount(String account) {
@@ -90,6 +93,8 @@ public class MemberServiceImpl implements MemberService {
             var map = BeanUtil.beanToMap( newMemberResp);
             String token = JwtUtil.createLoginToken(map);
             newMemberResp.setToken(token);
+            // 记入登录日志
+            memberLoginLogService.save(newMemberResp);
             return newMemberResp;
         } else {
             // 密码错误

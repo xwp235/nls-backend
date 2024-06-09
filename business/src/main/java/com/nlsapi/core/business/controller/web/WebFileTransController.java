@@ -1,6 +1,7 @@
 package com.nlsapi.core.business.controller.web;
 
 import com.nlsapi.core.business.req.FileTransPayReq;
+import com.nlsapi.core.business.resp.OrderInfoPayResp;
 import com.nlsapi.core.business.service.FileTransService;
 import com.nlsapi.core.common.utils.LogUtil;
 import jakarta.validation.Valid;
@@ -15,11 +16,8 @@ public class WebFileTransController {
     private final FileTransService fileTransService;
 
     @PostMapping("/pay")
-    public void pay(@Valid @RequestBody FileTransPayReq req) throws Exception {
-        LogUtil.info("语音识别支付开始");
-        fileTransService.pay(req);
-        LogUtil.info("语音识别支付结束");
-//        return new CommonResp<>(orderInfoPayResp);
+    public OrderInfoPayResp pay(@Valid @RequestBody FileTransPayReq req) throws Exception {
+        return fileTransService.pay(req);
     }
 
 //    @GetMapping("/query")

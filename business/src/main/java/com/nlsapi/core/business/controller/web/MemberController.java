@@ -5,15 +5,13 @@ import com.nlsapi.core.business.req.web.MemberLoginReq;
 import com.nlsapi.core.business.req.web.MemberRegisterReq;
 import com.nlsapi.core.business.req.web.MemberResetReq;
 import com.nlsapi.core.business.resp.MemberLoginResp;
+import com.nlsapi.core.business.service.IMemberLoginLogService;
 import com.nlsapi.core.business.service.MemberService;
 import com.nlsapi.core.common.resp.JsonResp;
 import com.nlsapi.core.common.utils.CryptoUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final IMemberLoginLogService memberLoginLogService;
 //    private final SmsCodeService smsCodeService;
 
     @PostMapping("register")
@@ -54,5 +53,11 @@ public class MemberController {
 //        log.info("忘记密码验证码校验通过：{}", req.getMobile());
         memberService.reset(req);
     }
+
+    @GetMapping("/heart")
+    public void heart() {
+        memberLoginLogService.updateHeartInfo();
+    }
+
 
 }

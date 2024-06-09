@@ -4,9 +4,13 @@ import com.nlsapi.core.business.context.LoginMemberContext;
 import com.nlsapi.core.business.entity.MastFileTransEntity;
 import com.nlsapi.core.business.enums.FileTransPayStatusEnum;
 import com.nlsapi.core.business.enums.FileTransStatusEnum;
+import com.nlsapi.core.business.enums.OrderInfoTypeEnum;
 import com.nlsapi.core.business.mapper.cust.CustMastFileTransEntityMapper;
 import com.nlsapi.core.business.req.FileTransPayReq;
+import com.nlsapi.core.business.req.OrderInfoPayReq;
+import com.nlsapi.core.business.resp.OrderInfoPayResp;
 import com.nlsapi.core.business.service.FileTransService;
+import com.nlsapi.core.business.service.OrderInfoService;
 import com.nlsapi.core.common.utils.AliyunVodUtil;
 import com.nlsapi.core.common.utils.IdWorkerUtil;
 import com.nlsapi.core.common.utils.LogUtil;
@@ -18,9 +22,10 @@ import org.springframework.stereotype.Service;
 public class FileTransServiceImpl implements FileTransService {
 
     private final CustMastFileTransEntityMapper custMastFileTransEntityMapper;
+    private final OrderInfoService orderInfoService;
 
     @Override
-    public void pay(FileTransPayReq req) throws Exception {
+    public OrderInfoPayResp pay(FileTransPayReq req) throws Exception {
         // 获取视频信息
         var videoInfo = AliyunVodUtil.getVideoInfo(req.getVod());
         var duration = videoInfo.getVideo().getDuration();
@@ -40,6 +45,16 @@ public class FileTransServiceImpl implements FileTransService {
         filetrans.setLang(req.getLang());
         filetrans.setVod(req.getVod());
         custMastFileTransEntityMapper.insertSelective(filetrans);
+
+        // 保存订单信息
+        OrderInfoPayReq orderInfoPayReq = new OrderInfoPayReq();
+        orderInfoPayReq.setOrderType(OrderInfoTypeEnum.FILE_TRANS_PAY.getCode());
+        // 订单表的info保存语音识别表的id
+        orderInfoPayReq.setInfo(String.valueOf(id));
+        orderInfoPayReq.setAmount(req.getAmount());
+        orderInfoPayReq.setChannel(req.getChannel());
+        orderInfoPayReq.setDesc("语音识别付费");
+        return orderInfoService.pay(orderInfoPayReq);
     }
 
 }

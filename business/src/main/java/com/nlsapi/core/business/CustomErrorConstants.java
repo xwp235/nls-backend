@@ -13,4 +13,5 @@ public interface CustomErrorConstants {
     int ERR_20008 = 20008;
     int ERR_20009 = 20009;
 
+    int ERR_20010 = 20010;
 }
